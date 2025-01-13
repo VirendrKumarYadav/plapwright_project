@@ -1,0 +1,33 @@
+import { test, expect } from '@playwright/test';
+
+
+
+test('get started link', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Click the get started link.
+  await page.getByRole('link', { name: 'Get started' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+});
+
+
+test.describe('navigation', () => {
+  test.beforeEach(async ({ page }) => {
+    // Go to the starting url before each test.
+    await page.goto('https://jaitensahu.github.io/Project-Dr.PathLab/Patients/');
+  });
+
+  test('has title', async ({ page }) => {
+    // Expect a title "to contain" a substring.
+    await expect(page).toHaveTitle(/Diagnostic Center and Pathology Lab for Blood Test | Dr Lal PathLab/);
+
+    const checkboxes = await page.locator('.navList-items');
+    const count = await checkboxes.count();
+
+    for (let i = 0; i < count; i++) {
+      await checkboxes.nth(i).click(); // click each checkbox
+    }
+  });
+});
